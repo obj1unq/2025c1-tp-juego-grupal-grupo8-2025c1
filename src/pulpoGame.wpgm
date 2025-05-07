@@ -1,26 +1,27 @@
+import src.randomizer.*
 import wollok.game.*
 import pulpo.*
+import contador.*
 import pez.*
 import posiciones.*
 
 program pulpoGame {
 	game.title("Pulpo Game") 	//	Valor por defecto "Wollok Game"
-	game.height(10) 		//	valor por defecto 5
-	game.width(15) 			//	valor por defecto 5
+	game.height(8) 		//	valor por defecto 5
+	game.width(13) 			//	valor por defecto 5
 	game.cellSize(120) 		//	valor por defecto 50
 	game.boardGround("fondo.png")
 
-	pez.reaparecer()
-	game.addVisual(pez)
+	game.onTick(750, "AparecerPez", { => randomizer.randomPez().aparecer() })
+	game.addVisual(contador)
 	game.addVisual(pulpo)
-	game.onTick(250, "pezNadar", {pez.nadar()})
-	game.whenCollideDo(
-		pulpo, { e => if(e == pez){ pulpo.comer(pez) }}
+	game.onCollideDo(
+		pulpo, { e => e.colision(pulpo) }
 	)
 
 	keyboard.up().onPressDo({pulpo.mover(arriba)})
 	keyboard.left().onPressDo({pulpo.mover(izquierda)})
 	keyboard.down().onPressDo({pulpo.mover(abajo)})
 	keyboard.right().onPressDo({pulpo.mover(derecha)})
-	game.start()	
+	game.start()
 }
