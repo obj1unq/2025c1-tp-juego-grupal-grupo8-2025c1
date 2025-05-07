@@ -1,3 +1,6 @@
+import pez.*
+
+
 object randomizer{
     method randomBorderX(){
         const x = [0, game.width() - 1].anyOne()
@@ -7,5 +10,13 @@ object randomizer{
 
     method randomBool(chance, in){
         return (0 .. in).anyOne() < chance
+    }
+
+    method randomPez(){
+        return [
+            new Pez(velocidad = 350, puntaje = 5, color = azul),
+            new Pez(velocidad = 250, puntaje = 10, color = rojo),
+            new Pez(velocidad = 200, puntaje = 20, color = verde)
+        ].anyOne()
     }
 }
