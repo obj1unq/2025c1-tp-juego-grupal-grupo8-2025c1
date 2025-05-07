@@ -22,4 +22,19 @@ object pulpo {
 	method decirPuntaje(){
 		game.say(self, "Tengo " + puntaje + " puntos!")
 	}
+	method anunciarMuerte(){
+		game.say(self, "Estoy muerto")
+	}
+
+	method morir(){
+		puntaje = 0
+		self.anunciarMuerte()
+	}
+	/*
+	method debilitarse(){
+		self.puntaje() / 2
+		self.decirPuntaje()
+		//Opcion que debilita al pulpo
+	}
+	*/
 }

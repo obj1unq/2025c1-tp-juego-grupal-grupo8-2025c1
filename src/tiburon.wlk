@@ -1,12 +1,13 @@
 import posiciones.*
 import randomizer.*
+import pulpo.*
 
-object pez{
+object tiburon{
     var property direccion = derecha
     var property position = game.at(0, 0)
     var property puntaje = 10
 
-    method image() = "pez.png"
+    method image() = "shark_sinfondo.png"
 
     method reaparecer(){
         position = randomizer.randomBorderX()
@@ -26,16 +27,10 @@ object pez{
             position = direccion.siguiente(position)
         }
     }
-    method colision(personaje){
-        personaje.comer(self)
-        //self.desaparecer()
-    }
-    /*
-    method desaparecer(){
-        //estado = muerto
-        game.removeVisual(self)
-    }
-    */
 
+    method colision(personaje){
+        pulpo.morir()
+        //pulpo.debilitarse()
+    }
 
 }
