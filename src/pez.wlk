@@ -50,9 +50,15 @@ class Pez{
             game.schedule(velocidad, { self.nadar() })
         }
     }
-
-    method desaparecer(){
-        estado = muerto
-        game.removeVisual(self)
-    }
-}
+// <<<<<<< tiburon
+//    method colision(personaje){
+//       personaje.comer(self)
+//       //self.desaparecer()
+//   }
+//   /*
+//   method desaparecer(){
+//       //estado = muerto
+//       game.removeVisual(self)
+//   }
+77    */
+/7}

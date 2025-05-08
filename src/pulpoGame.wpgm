@@ -3,6 +3,7 @@ import wollok.game.*
 import pulpo.*
 import contador.*
 import pez.*
+import tiburon.*
 import posiciones.*
 
 program pulpoGame {
@@ -12,16 +13,32 @@ program pulpoGame {
 	game.cellSize(120) 		//	valor por defecto 50
 	game.boardGround("fondo.png")
 
-	game.onTick(750, "AparecerPez", { => randomizer.randomPez().aparecer() })
-	game.addVisual(contador)
-	game.addVisual(pulpo)
-	game.onCollideDo(
-		pulpo, { e => e.colision(pulpo) }
-	)
-
-	keyboard.up().onPressDo({pulpo.mover(arriba)})
-	keyboard.left().onPressDo({pulpo.mover(izquierda)})
-	keyboard.down().onPressDo({pulpo.mover(abajo)})
-	keyboard.right().onPressDo({pulpo.mover(derecha)})
-	game.start()
-}
+// -<<<<<<< tiburon
+// 	tiburon.reaparecer()
+// 	pez.reaparecer()
+// 	game.addVisual(pez)
+// 	game.addVisual(pulpo)
+// 	game.addVisual(tiburon)
+// 
+// 	game.onTick(100,"tiburonNadar", {tiburon.nadar()})
+// 	//game.onCollideDo(tiburon, { e => tiburon.colision() })
+// 
+// 	game.onTick(250, "pezNadar", {pez.nadar()})
+// 	game.onCollideDo(
+//     pulpo, { e => e.colision(pulpo) }
+// 		)
+// =======
+// 	game.onTick(750, "AparecerPez", { => randomizer.randomPez().aparecer() })
+// 	game.addVisual(contador)
+// 	game.addVisual(pulpo)
+// 	game.onCollideDo(
+// 		pulpo, { e => e.colision(pulpo) }
+// 	)
+// >>>>>>> demo
+// 
+// 	keyboard.up().onPressDo({pulpo.mover(arriba)})
+// 	keyboard.left().onPressDo({pulpo.mover(izquierda)})
+// 	keyboard.down().onPressDo({pulpo.mover(abajo)})
+// 	keyboard.right().onPressDo({pulpo.mover(derecha)})
+// 	game.start()
+// }
