@@ -15,12 +15,6 @@ object pulpo {
 
 	method comer(pez){
 		puntaje += pez.puntaje()
-		self.decirPuntaje()
-		pez.reaparecer()
-	}
-
-	method decirPuntaje(){
-		game.say(self, "Tengo " + puntaje + " puntos!")
 	}
 	method anunciarMuerte(){
 		game.say(self, "Estoy muerto")
