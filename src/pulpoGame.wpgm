@@ -23,7 +23,6 @@ program pulpoGame {
  
  	game.onTick(100,"tiburonNadar", { tiburon.nadar()})
  	game.onCollideDo(tiburon, { e => tiburon.colision(e) })
-
 	game.onTick(500,"redCaer", {red.caer(pulpo)})
  	game.onCollideDo(red, { e => red.colision(e) })
  
@@ -35,7 +34,6 @@ program pulpoGame {
  	game.onCollideDo(
  		pulpo, { e => e.colision(pulpo) }
  	)
- 
  
  	keyboard.w().onPressDo({pulpo.mover(arriba)})
  	keyboard.a().onPressDo({pulpo.mover(izquierda)})
