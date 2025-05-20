@@ -4,11 +4,13 @@ import randomizer.*
 object red{
     var property direccion = abajo
     var property position = game.at(0, 0)
+    var personajeAtrapado = null
 
     method image() = "red.png"
 
     method reaparecer(){
         position = randomizer.randomBorderY()
+        personajeAtrapado = null
         direccion = if(position.y() == 0) { arriba } else { abajo }
     }
 
@@ -21,22 +23,23 @@ object red{
         if(self.seSaleDelMapa()){
             self.reaparecer()
         }
-        else if (!personaje.atrapado()) {
+        else if (personajeAtrapado == null) {
             position = direccion.siguiente(position)
         }
     }
    
     
     method colision(personaje){
-	        personaje.atraparsePorRed()
+        personajeAtrapado = personaje
+        personaje.atraparsePorRed()
     }
 
     method desaparecer() {
-    game.removeVisual(self)
-    game.schedule(3000, {
-        self.reaparecer()
-        game.addVisual(self)
-    })
-   } 
+        game.removeVisual(self)
+        game.schedule(3000, {
+            self.reaparecer()
+            game.addVisual(self)
+        })
+    } 
 
 }

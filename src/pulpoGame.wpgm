@@ -14,22 +14,15 @@ program pulpoGame {
 	game.cellSize(120) 		//	valor por defecto 50
 	game.boardGround("fondo.png")
     
-	const nuevoPez = new Pez()
  	tiburon.reaparecer()
- 	nuevoPez.aparecer()
  	game.addVisual(pulpo)
  	game.addVisual(tiburon)
 	game.addVisual(red)
  
- 	game.onTick(100,"tiburonNadar", { tiburon.nadar()})
- 	game.onCollideDo(tiburon, { e => tiburon.colision(e) })
+ 	game.onTick(200,"tiburonNadar", { tiburon.nadar()})
 	game.onTick(500,"redCaer", {red.caer(pulpo)})
- 	game.onCollideDo(red, { e => red.colision(e) })
  
- 	game.onTick(250, "pezNadar", { nuevoPez.nadar()})
- 	game.onCollideDo(pulpo, { e => e.colision(pulpo) })
-
- 	game.onTick(750, "AparecerPez", { => randomizer.randomPez().aparecer() })
+ 	game.onTick(1000, "AparecerPez", { randomizer.randomPez().aparecer() })
 	game.addVisual(contador)
  	game.onCollideDo(
  		pulpo, { e => e.colision(pulpo) }
@@ -41,6 +34,7 @@ program pulpoGame {
  	keyboard.d().onPressDo({pulpo.mover(derecha)})
 	keyboard.c().onPressDo({pulpo.escaparseDeRed()
 	                        red.desaparecer()})
+	keyboard.r().onPressDo({pulpo.reiniciar()})
     keyboard.p().onPressDo({game.stop()})
 	game.start()
 }

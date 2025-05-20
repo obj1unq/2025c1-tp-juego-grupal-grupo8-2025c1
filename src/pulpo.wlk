@@ -1,45 +1,54 @@
 import wollok.game.*
 import posiciones.*
 
+object vivo {
+	method puedeMoverse() = true
+}
+object atrapado {
+	method puedeMoverse() = false
+}
+object muerto {
+	method puedeMoverse() = false
+}
+
 object pulpo {
 	var property position = game.at(3,5)
 	var property puntaje = 0
-	var property atrapado = false
+	var property estado = vivo
 			
 	method image(){
 		return "pulpo.png"
 	}
-	
+
+	method reiniciar(){
+		puntaje = 0
+		estado = vivo
+		position = game.at(3, 5)
+	}
+
 	method mover(direccion) {
-		if (!atrapado)
-		position = direccion.siguiente(self.position())
+		if (estado.puedeMoverse())
+			position = direccion.siguiente(self.position())
 	}
 
 	method comer(pez){
-		if (!atrapado)
-		puntaje += pez.puntaje()
-	}
-	method anunciarMuerte(){
-		game.say(self, "Estoy muerto")
+		if (estado.puedeMoverse())
+			puntaje += pez.puntaje()
 	}
 
 	method morir(){
-		puntaje = 0
-		self.anunciarMuerte()
+		estado = muerto
 	}
     
 	method escaparseDeRed() {
-	if (atrapado) {
-		  atrapado = false
-		  game.say(self, "Me escape")
+		if (estado == atrapado) {
+			estado = vivo
+		}
 	}
-}
-
 
 	method atraparsePorRed() {
-	if (!atrapado) {
-		atrapado = true
-		game.say(self, "Estoy atrapado")
+		if (estado.puedeMoverse()) {
+			estado = atrapado
+		}
 	}
-}
 }
