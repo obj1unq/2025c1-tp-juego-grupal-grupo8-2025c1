@@ -1,11 +1,12 @@
 import posiciones.*
 import randomizer.*
+import entidad.*
 
 object rojo{ const property color = "rojo"}
 object azul{ const property color = "azul"}
 object verde{ const property color = "verde"}
 
-class Pez{
+class Pez inherits EntidadConTick{
     var property direccion = derecha
     var property position = game.at(0, 0)
     var property puntaje = 10
@@ -15,17 +16,21 @@ class Pez{
     method image() = "pez-" + color.color() + ".png"
     method nadarActionName() = "Nadar" + self.identity()
 
-    method aparecer(){
-        game.addVisual(self)
+    override method milisegundos() = velocidad
+    override method inmediato() = false
+
+    override method alAgregarAEscena(_escena){
+        super(_escena)
         position = randomizer.randomBorderX()
         direccion = if(position.x() == 0) { derecha } else { izquierda }
-        game.onTick(velocidad, self.nadarActionName(), {self.nadar()})
-        game.schedule(velocidad, { self.nadar() })
+    }
+
+    override method actualizar(){
+        self.nadar()
     }
 
     method colision(personaje){
         personaje.comer(self)
-        self.desaparecer()
     }
 
     method puedeNadar(){
@@ -47,8 +52,6 @@ class Pez{
     }
 
     method desaparecer(){
-        game.removeTickEvent(self.nadarActionName())
-        game.removeVisual(self)
+        escena.quitarEntidad(self)
     }
-
 }

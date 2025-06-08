@@ -1,17 +1,26 @@
+import src.escena.*
 import posiciones.*
 import randomizer.*
 import pulpo.*
+import entidad.*
 
-object tiburon{
+class Tiburon inherits EntidadConTick{
     var property direccion = derecha
     var property position = game.at(0, 0)
     var property puntaje = 10
 
+    override method milisegundos() = 250
+
     method image() = "shark_sinfondo.png"
 
-    method reaparecer(){
+    override method alAgregarAEscena(_escena){
+        super(_escena)
         position = randomizer.randomBorderX()
         direccion = if(position.x() == 0) { derecha } else { izquierda }
+    }
+
+    override method actualizar(){
+        self.nadar()
     }
 
     method seSaleDelMapa(){
@@ -21,7 +30,7 @@ object tiburon{
 
     method nadar(){
         if(self.seSaleDelMapa()){
-            self.reaparecer()
+            escena.quitarEntidad(self)
         }
         else{
             position = direccion.siguiente(position)
@@ -29,8 +38,6 @@ object tiburon{
     }
 
     method colision(personaje){
-        pulpo.morir()
-        //pulpo.debilitarse()
+        personaje.morir()
     }
-
 }

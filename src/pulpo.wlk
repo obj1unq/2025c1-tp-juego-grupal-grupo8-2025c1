@@ -1,30 +1,68 @@
 import wollok.game.*
 import posiciones.*
+import entidad.*
+import entrada.*
 
 object vivo {
+	const tiempoAtrapado = 1000
 	method puedeMoverse() = true
-}
-object atrapado {
-	method puedeMoverse() = false
-}
-object muerto {
-	method puedeMoverse() = false
+	method estaVivo() = true
+
+	method atraparse(pulpo){
+		pulpo.estado(atrapado)
+		game.schedule(tiempoAtrapado, {
+			if(pulpo.estado().estaVivo()){
+				pulpo.estado(self)
+			}
+		})
+	}
 }
 
-object pulpo {
-	var property position = game.at(3,5)
+object atrapado {
+	method puedeMoverse() = false
+	method estaVivo() = true
+
+	method atraparse(pulpo){}
+}
+
+object muerto {
+	method puedeMoverse() = false
+	method estaVivo() = false
+
+	method atraparse(pulpo){}
+}
+
+class Pulpo inherits Entidad {
+	var property position = game.center()
 	var property puntaje = 0
 	var property estado = vivo
+	const moverArriba = {self.mover(arriba)}
+	const moverIzquierda = {self.mover(izquierda)}
+	const moverAbajo = {self.mover(abajo)}
+	const moverDerecha = {self.mover(derecha)}
 			
 	method image(){
 		return "pulpo.png"
 	}
 
-	method reiniciar(){
+	override method alAgregarAEscena(_escena) {
+		super(_escena)
 		puntaje = 0
 		estado = vivo
-		position = game.at(3, 5)
+		game.onCollideDo(self, { e => e.colision(self) })
+		entrada.alPresionarTecla(keyboard.w(), moverArriba)
+        entrada.alPresionarTecla(keyboard.a(), moverIzquierda)
+        entrada.alPresionarTecla(keyboard.s(), moverAbajo)
+        entrada.alPresionarTecla(keyboard.d(), moverDerecha)
 	}
+
+    override method alQuitarDeEscena() {
+        super()
+		entrada.quitarPresionarTecla(keyboard.w(), moverArriba)
+        entrada.quitarPresionarTecla(keyboard.a(), moverIzquierda)
+        entrada.quitarPresionarTecla(keyboard.s(), moverAbajo)
+        entrada.quitarPresionarTecla(keyboard.d(), moverDerecha)
+    }
 
 	method mover(direccion) {
 		if (estado.puedeMoverse())
@@ -32,23 +70,17 @@ object pulpo {
 	}
 
 	method comer(pez){
-		if (estado.puedeMoverse())
+		if (estado.puedeMoverse()){
 			puntaje += pez.puntaje()
+			escena.quitarEntidad(pez)
+		}
 	}
 
 	method morir(){
 		estado = muerto
 	}
-    
-	method escaparseDeRed() {
-		if (estado == atrapado) {
-			estado = vivo
-		}
-	}
 
 	method atraparsePorRed() {
-		if (estado.puedeMoverse()) {
-			estado = atrapado
-		}
+		estado.atraparse(self)
 	}
 }
