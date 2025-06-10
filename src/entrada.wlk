@@ -1,5 +1,3 @@
-import wollok.mirror.*
-
 class Evento {
     const closures = #{}
 
@@ -39,8 +37,7 @@ object entrada {
     }
 
     method obtenerCodigoDeTecla(tecla){
-        const mirror = new ObjectMirror(target=tecla)
-        return mirror.resolve("keyCodes").first()
+        return tecla.keyCodes().first()
     }
 
     method validarExisteTecla(tecla){
