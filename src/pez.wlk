@@ -55,3 +55,16 @@ class Pez inherits EntidadConTick{
         escena.quitarEntidad(self)
     }
 }
+
+
+class PezFactory {
+    var property color
+    var property velocidad
+    var property puntaje
+
+    method nuevoPez() = new Pez(color=color, puntaje=puntaje, velocidad=velocidad)
+}
+
+const azulFactory = new PezFactory(velocidad = 350, puntaje = 5, color = azul)
+const rojoFactory = new PezFactory(velocidad = 250, puntaje = 10, color = rojo)
+const verdeFactory = new PezFactory(velocidad = 200, puntaje = 20, color = verde)

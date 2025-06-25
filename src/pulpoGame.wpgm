@@ -3,10 +3,10 @@ import estadoDeJuego.*
 import entrada.*
 
 program pulpoGame {
-	game.title("Pulpo Game") 	//	Valor por defecto "Wollok Game"
-	game.height(8) 		//	valor por defecto 5
-	game.width(13) 			//	valor por defecto 5
-	game.cellSize(120) 		//	valor por defecto 50
+	game.title("Pulpo Game")
+	game.height(8)
+	game.width(13)
+	game.cellSize(120)
 	game.boardGround("fondo.png")
 
 	entrada.inicializar()

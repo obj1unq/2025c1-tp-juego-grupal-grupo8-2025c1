@@ -20,9 +20,9 @@ object randomizer{
 
     method randomPez(){
         return [
-            new Pez(velocidad = 350, puntaje = 5, color = azul),
-            new Pez(velocidad = 250, puntaje = 10, color = rojo),
-            new Pez(velocidad = 200, puntaje = 20, color = verde)
-        ].anyOne()
+            azulFactory,
+            rojoFactory,
+            verdeFactory
+        ].anyOne().nuevoPez()
     }
 }

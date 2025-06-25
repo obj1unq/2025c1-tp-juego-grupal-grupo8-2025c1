@@ -10,9 +10,7 @@ import entrada.*
 
 
 class Escena {
-    const entidades = #{}
-
-    method entidades() = entidades.asList()
+    const property entidades = #{}
 
     method validarAgregarEntidad(entidad){
         if(entidades.contains(entidad)){
@@ -41,6 +39,7 @@ class Escena {
     }
 
     method cargarEscena()
+
     method descargarEscena(){
         entidades.forEach({entidad => self.quitarEntidad(entidad)})
     }
@@ -49,7 +48,6 @@ class Escena {
 object escenaJuego inherits Escena {
 
     const accionRecargarEscena = {estadoDeJuego.recargarEscena()}
-    const accionPausa = {game.stop()}
 
     override method cargarEscena(){
         const jugador = new Pulpo()
@@ -60,7 +58,6 @@ object escenaJuego inherits Escena {
         game.onTick(2500, "aparecerRed", { self.agregarEntidad(new Red()) })
         game.onTick(3000, "aparecerTiburon", { self.agregarEntidad(new Tiburon()) })
     
-        entrada.alPresionarTecla(keyboard.p(), accionPausa)
         entrada.alPresionarTecla(keyboard.r(), accionRecargarEscena)
     }
 
@@ -69,7 +66,6 @@ object escenaJuego inherits Escena {
         game.removeTickEvent("aparecerRed")
         game.removeTickEvent("aparecerPez")
         game.removeTickEvent("aparecerTiburon")
-        entrada.alPresionarTecla(keyboard.p(), accionPausa)
         entrada.quitarPresionarTecla(keyboard.r(), accionRecargarEscena)
     }
 }

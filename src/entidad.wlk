@@ -28,10 +28,6 @@ class EntidadConTick inherits Entidad {
         }
     }
 
-    method agregarEventoTick(){
-        game.onTick(self.milisegundos(), self.identity().toString(), {self.actualizar()})
-    }
-
     method quitarEventoTick(){
         tick.stop()
     }
