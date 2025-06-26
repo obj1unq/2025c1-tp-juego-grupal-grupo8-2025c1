@@ -77,6 +77,7 @@ class Pulpo inherits Entidad {
 	method morir(){
 		estado = muerto
 	    image =  "pulpoGris.png"
+		game.stop()
 	}
 
 	method atraparsePorRed() {
