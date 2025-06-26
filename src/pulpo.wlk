@@ -2,6 +2,7 @@ import wollok.game.*
 import posiciones.*
 import entidad.*
 import entrada.*
+import textoFinal.*
 
 object vivo {
 	const tiempoAtrapado = 1000
@@ -28,8 +29,6 @@ object atrapado {
 object muerto {
 	method puedeMoverse() = false
 	method estaVivo() = false
-
-	method atraparse(pulpo){}
 }
 
 class Pulpo inherits Entidad {
@@ -77,10 +76,12 @@ class Pulpo inherits Entidad {
 	method morir(){
 		estado = muerto
 	    image =  "pulpoGris.png"
-		game.stop()
+		
 	}
 
-	method atraparsePorRed() {
+	method atraparsePorRed(red) {
 		estado.atraparse(self)
+		puntaje -= red.puntaje()
 	}
 }
+

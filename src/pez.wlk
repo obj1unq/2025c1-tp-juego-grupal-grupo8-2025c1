@@ -2,9 +2,12 @@ import posiciones.*
 import randomizer.*
 import entidad.*
 
-object rojo{ const property color = "rojo"}
-object azul{ const property color = "azul"}
-object verde{ const property color = "verde"}
+class Color {
+    const property color
+}
+object rojo inherits Color(color="rojo") {}
+object azul inherits Color(color="azul") {}
+object verde inherits Color(color="verde") {}
 
 class Pez inherits EntidadConTick{
     var property direccion = derecha
