@@ -8,7 +8,7 @@ class Red inherits EntidadConTick {
 
     override method inmediato() = false
     override method milisegundos() = 500
-    method image() = "red.png"
+    method image() = "red2.png"
 
     override method alAgregarAEscena(_escena){
         super(_escena)

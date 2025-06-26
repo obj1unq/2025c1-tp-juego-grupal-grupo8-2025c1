@@ -1,6 +1,5 @@
 import pez.*
 
-
 object randomizer{
     method randomBorderX(){
         const x = [0, game.width() - 1].anyOne()

@@ -40,10 +40,8 @@ class Pulpo inherits Entidad {
 	const moverIzquierda = {self.mover(izquierda)}
 	const moverAbajo = {self.mover(abajo)}
 	const moverDerecha = {self.mover(derecha)}
-			
-	method image(){
-		return "pulpo.png"
-	}
+	
+	var property image = "pulpo2.png"
 
 	override method alAgregarAEscena(_escena) {
 		super(_escena)
@@ -78,6 +76,7 @@ class Pulpo inherits Entidad {
 
 	method morir(){
 		estado = muerto
+	    image =  "pulpoGris.png"
 	}
 
 	method atraparsePorRed() {
