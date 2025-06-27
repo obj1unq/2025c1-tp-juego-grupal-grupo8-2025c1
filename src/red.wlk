@@ -5,6 +5,7 @@ import randomizer.*
 class Red inherits EntidadConTick {
     var property direccion = abajo
     var property position = game.at(0, 0)
+    const property penalizacion
 
     override method inmediato() = false
     override method milisegundos() = 500
@@ -39,7 +40,7 @@ class Red inherits EntidadConTick {
     }
     
     method colision(personaje){
-        personaje.atraparsePorRed()
+        personaje.atraparsePorRed(self)
         self.desaparecer()
     }
 

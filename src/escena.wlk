@@ -43,8 +43,15 @@ class Escena {
     method descargarEscena(){
         entidades.forEach({entidad => self.quitarEntidad(entidad)})
     }
-}
 
+    method quitarEnemigosyPeces() {
+    entidades.forEach({ entidad =>
+        if(entidad.esPantallaFinal()) {
+            self.quitarEntidad(entidad)
+        }
+    })
+}
+ }
 object escenaJuego inherits Escena {
 
     const accionRecargarEscena = {estadoDeJuego.recargarEscena()}
@@ -55,7 +62,7 @@ object escenaJuego inherits Escena {
         self.agregarEntidad(new Contador(jugador = jugador))
     
         game.onTick(1000, "aparecerPez", { self.agregarEntidad(randomizer.randomPez()) })
-        game.onTick(2500, "aparecerRed", { self.agregarEntidad(new Red()) })
+        game.onTick(2500, "aparecerRed", { self.agregarEntidad(new Red(penalizacion=30)) })
         game.onTick(3000, "aparecerTiburon", { self.agregarEntidad(new Tiburon()) })
     
         entrada.alPresionarTecla(keyboard.r(), accionRecargarEscena)
