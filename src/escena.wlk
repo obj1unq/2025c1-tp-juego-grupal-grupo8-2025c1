@@ -7,6 +7,8 @@ import posiciones.*
 import red.*
 import randomizer.*
 import entrada.*
+import pantallapormuerte.*
+
 
 
 class Escena {
@@ -44,13 +46,6 @@ class Escena {
         entidades.forEach({entidad => self.quitarEntidad(entidad)})
     }
 
-    method quitarEnemigosyPeces() {
-    entidades.forEach({ entidad =>
-        if(entidad.esPantallaFinal()) {
-            self.quitarEntidad(entidad)
-        }
-    })
-}
  }
 object escenaJuego inherits Escena {
 
@@ -70,9 +65,15 @@ object escenaJuego inherits Escena {
 
     override method descargarEscena(){
         super()
+        self.detenerSpawns()
+        entrada.quitarPresionarTecla(keyboard.r(), accionRecargarEscena)
+    }
+
+    method detenerSpawns() {
         game.removeTickEvent("aparecerRed")
         game.removeTickEvent("aparecerPez")
         game.removeTickEvent("aparecerTiburon")
-        entrada.quitarPresionarTecla(keyboard.r(), accionRecargarEscena)
     }
 }
+
+ 

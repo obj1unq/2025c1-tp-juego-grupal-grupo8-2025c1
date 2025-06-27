@@ -4,7 +4,7 @@ import entidad.*
 import entrada.*
 import pantallapormuerte.*
 import escena.*
-
+import estadoDeJuego.*
 object vivo {
 	const tiempoAtrapado = 1000
 	method puedeMoverse() = true
@@ -78,8 +78,14 @@ class Pulpo inherits Entidad {
 
 	method morir(){
 		estado = muerto
-	    image =  "pulpoGris.png"		
-		game.schedule(1000, {escena.agregarEntidad(new PantallaFinal(puntajeFinal = puntaje))})    
+	    image =  "pulpoGris.png"	
+		escenaJuego.detenerSpawns()
+		game.schedule(1000, {escena.agregarEntidad(new PantallaFinal())})   	
+		game.schedule(1001, {
+        const puntajeFinal = new PuntajeFinal()
+        escena.agregarEntidad(puntajeFinal)
+        puntajeFinal.mostrar(self)
+        })
 	}
 		
     method atraparsePorRed(red) {
@@ -94,5 +100,8 @@ class Pulpo inherits Entidad {
               puntaje = 0
         }
 	}
-}
 
+	method digitos() {
+		return puntaje.toString().split("")
+	}
+}
