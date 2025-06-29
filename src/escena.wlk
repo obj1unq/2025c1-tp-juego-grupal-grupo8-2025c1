@@ -9,6 +9,7 @@ import randomizer.*
 import entrada.*
 import pantallapormuerte.*
 import entidad.*
+import pantallainicial.*
 
 
 
@@ -57,7 +58,7 @@ object escenaJuego inherits Escena {
         self.agregarEntidad(new Contador(jugador = jugador))
     
         game.onTick(1000, "aparecerPez", { self.agregarEntidad(randomizer.randomPez()) })
-        game.onTick(2500, "aparecerRed", { self.agregarEntidad(new Red(penalizacion=30)) })
+        game.onTick(2500, "aparecerRed", { self.agregarEntidad(new Red()) })
         game.onTick(3000, "aparecerTiburon", { self.agregarEntidad(new Tiburon()) })
     
         entrada.alPresionarTecla(keyboard.r(), accionRecargarEscena)
@@ -73,5 +74,16 @@ object escenaJuego inherits Escena {
         game.removeTickEvent("aparecerRed")
         game.removeTickEvent("aparecerPez")
         game.removeTickEvent("aparecerTiburon")
+    }
+
+    method finDelJuego(jugador) {
+        const pantallafinal = new PantallaFinal()
+        game.schedule(1000, {self.agregarEntidad(pantallafinal)})   	
+		game.schedule(1025, {
+        const puntajeFinal = new PuntajeFinal()
+        self.agregarEntidad(puntajeFinal)
+        puntajeFinal.mostrar(jugador)
+        pantallaInicial.volverAlMenuPrincipal(pantallafinal)
+        })
     }
 }

@@ -84,12 +84,7 @@ class Pulpo inherits Entidad {
 		estado = muerto
 	    image =  "pulpoGris.png"	
 		escenaJuego.detenerSpawns()
-		game.schedule(1000, {escena.agregarEntidad(new PantallaFinal())})   	
-		game.schedule(1001, {
-        const puntajeFinal = new PuntajeFinal()
-        escena.agregarEntidad(puntajeFinal)
-        puntajeFinal.mostrar(self)
-        })
+		escenaJuego.finDelJuego(self)
 	}
 		
     method atraparsePorRed(red) {

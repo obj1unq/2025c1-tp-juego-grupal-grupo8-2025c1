@@ -2,7 +2,7 @@ import entidad.*
 import escena.*
 class PantallaFinal inherits Entidad {
     
-    method image() = "gameover33.png"  
+    method image() = "gameover34.png"  
     method position() = game.at(0, 0)
 }
 
@@ -17,7 +17,7 @@ class PuntajeFinal inherits Entidad {
        digitos.forEach({ d =>
             const numero = new NumeroFinal(valor = d, posX = x)
             escena.agregarEntidad(numero)
-            x = x + 1
+            x += 1
        })
     }
 }

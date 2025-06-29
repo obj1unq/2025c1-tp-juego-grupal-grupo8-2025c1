@@ -5,7 +5,7 @@ import randomizer.*
 class Red inherits EntidadConTick {
     var property direccion = abajo
     var property position = game.at(0, 0)
-    const property penalizacion
+    const property penalizacion = 35
 
     override method inmediato() = false
     override method milisegundos() = 500
