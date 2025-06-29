@@ -17,11 +17,18 @@ object randomizer{
         return (0 .. in).anyOne() < chance
     }
 
-    method randomPez(){
-        return [
-            azulFactory,
-            rojoFactory,
-            verdeFactory
-        ].anyOne().nuevoPez()
+    method randomPez(personaje) {
+    const peces = [
+        azulFactory,
+        rojoFactory,
+        verdeFactory,
+        venenosoFactory
+    ]
+
+    if (personaje.estaEnvenenado()) {
+        peces.add(curativoFactory)
     }
+
+    return peces.anyOne().nuevoPez()
+}
 }

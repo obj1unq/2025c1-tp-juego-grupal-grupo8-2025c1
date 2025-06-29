@@ -43,7 +43,7 @@ object pantallaInicial {
 object imagenInstrucciones {
     var property position = game.at(0, 0)
 
-     method image() ="instruccioness.png"
+     method image() ="instruccionesss.png"
 
 }
 

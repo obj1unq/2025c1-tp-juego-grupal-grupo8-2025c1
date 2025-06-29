@@ -8,6 +8,8 @@ class Color {
 object rojo inherits Color(color="rojo") {}
 object azul inherits Color(color="azul") {}
 object verde inherits Color(color="verde") {}
+object venenoso inherits Color(color="venenoso") {}
+object curativo inherits Color(color="curativo") {}
 
 class Pez inherits EntidadConTick{
     var property direccion = derecha
@@ -71,3 +73,27 @@ class PezFactory {
 const azulFactory = new PezFactory(velocidad = 350, puntaje = 5, color = azul)
 const rojoFactory = new PezFactory(velocidad = 250, puntaje = 10, color = rojo)
 const verdeFactory = new PezFactory(velocidad = 200, puntaje = 20, color = verde)
+
+class PezVenenoso inherits Pez() {
+       
+    override method colision(personaje) {
+        self.desaparecer()
+        personaje.envenenar()
+    }
+}
+
+class PezCurativo inherits Pez() {
+    
+    override method colision(personaje) {
+        personaje.curar()
+        self.desaparecer()
+    }
+}
+
+object venenosoFactory {
+    method nuevoPez() = new PezVenenoso(puntaje=0, velocidad=100, color=venenoso)
+}
+
+object curativoFactory {
+    method nuevoPez() = new PezCurativo(puntaje=0, velocidad=250, color=curativo)
+}

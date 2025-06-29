@@ -38,6 +38,7 @@ class Pulpo inherits Entidad {
 	var property position = game.center()
 	var property puntaje = 0
 	var property estado = vivo
+	var property estaEnvenenado = false
 	const moverArriba = {self.mover(arriba)}
 	const moverIzquierda = {self.mover(izquierda)}
 	const moverAbajo = {self.mover(abajo)}
@@ -103,4 +104,28 @@ class Pulpo inherits Entidad {
 	method digitos() {
 		return puntaje.toString().split("")
 	}
+
+	method envenenar() {
+        estaEnvenenado = true
+		puntaje -= 10
+		image = "pulpoEnvenenado.png"
+        self.iniciarPerdidaContinua()
+    }
+
+    method curar() {
+        estaEnvenenado = false
+		puntaje += 25
+		image = "pulpo2.png"
+    }
+
+	method iniciarPerdidaContinua() {
+        if (estaEnvenenado) {
+            puntaje -= 5
+            game.schedule(1000, { self.iniciarPerdidaContinua() })
+			if(puntaje < 0) {
+              puntaje = 0
+        }
+        }
+		
+    }
 }

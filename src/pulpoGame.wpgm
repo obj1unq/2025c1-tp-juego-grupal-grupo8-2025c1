@@ -12,8 +12,6 @@ program pulpoGame {
 
 
     pantallaInicial.iniciarJuego()
-	//entrada.inicializar()
-	//estadoDeJuego.inicializar()
 
 	game.start()
 }
