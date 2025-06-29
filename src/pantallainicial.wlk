@@ -1,3 +1,4 @@
+import src.escena.*
 import entrada.*
 import estadoDeJuego.*
 
@@ -33,7 +34,9 @@ object pantallaInicial {
             keyboard.z().onPressDo({
                 game.removeVisual(imagen)
                 game.addVisual(self)
+                escenaJuego.descargarEscena()
                 })
+            
      }
 }
 
