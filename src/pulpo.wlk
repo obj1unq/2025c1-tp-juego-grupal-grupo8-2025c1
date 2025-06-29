@@ -6,7 +6,7 @@ import pantallapormuerte.*
 import escena.*
 import estadoDeJuego.*
 object vivo {
-	const tiempoAtrapado = 1000
+	const tiempoAtrapado = 1200
 	method puedeMoverse() = true
 	method estaVivo() = true
 
@@ -54,6 +54,10 @@ class Pulpo inherits Entidad {
         entrada.alPresionarTecla(keyboard.a(), moverIzquierda)
         entrada.alPresionarTecla(keyboard.s(), moverAbajo)
         entrada.alPresionarTecla(keyboard.d(), moverDerecha)
+	}
+
+	method agregarPuntaje() {
+		escena.agregar(puntaje)
 	}
 
     override method alQuitarDeEscena() {

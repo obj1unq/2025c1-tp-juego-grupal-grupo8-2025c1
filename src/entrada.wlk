@@ -25,7 +25,7 @@ object entrada {
             keyboard.s(),
             keyboard.d(),
             keyboard.p(),
-            keyboard.c(),
+            keyboard.h(),
             keyboard.r()
         ]
 

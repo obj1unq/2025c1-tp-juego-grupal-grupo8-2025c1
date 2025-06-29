@@ -11,14 +11,14 @@ class PuntajeFinal inherits Entidad {
     method position() = game.at(8, 3)         
 
     method mostrar(jugador) {
-    const digitos = jugador.digitos()
-    var x = 8
+       const digitos = jugador.digitos()
+       var x = 8
     
-    digitos.forEach({ d =>
-        const numero = new NumeroFinal(valor = d, posX = x)
-        escena.agregarEntidad(numero)
-        x = x + 1
-        })
+       digitos.forEach({ d =>
+            const numero = new NumeroFinal(valor = d, posX = x)
+            escena.agregarEntidad(numero)
+            x = x + 1
+       })
     }
 }
 

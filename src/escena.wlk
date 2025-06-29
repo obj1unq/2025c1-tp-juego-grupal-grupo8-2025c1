@@ -8,6 +8,7 @@ import red.*
 import randomizer.*
 import entrada.*
 import pantallapormuerte.*
+import entidad.*
 
 
 
@@ -45,7 +46,6 @@ class Escena {
     method descargarEscena(){
         entidades.forEach({entidad => self.quitarEntidad(entidad)})
     }
-
  }
 object escenaJuego inherits Escena {
 
@@ -75,5 +75,3 @@ object escenaJuego inherits Escena {
         game.removeTickEvent("aparecerTiburon")
     }
 }
-
- 
