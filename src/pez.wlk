@@ -1,11 +1,17 @@
 import posiciones.*
 import randomizer.*
+import entidad.*
 
-object rojo{ const property color = "rojo"}
-object azul{ const property color = "azul"}
-object verde{ const property color = "verde"}
+class Color {
+    const property color
+}
+object rojo inherits Color(color="rojo") {}
+object azul inherits Color(color="azul") {}
+object verde inherits Color(color="verde") {}
+object venenoso inherits Color(color="venenoso") {}
+object curativo inherits Color(color="curativo") {}
 
-class Pez{
+class Pez inherits EntidadConTick{
     var property direccion = derecha
     var property position = game.at(0, 0)
     var property puntaje = 10
@@ -15,17 +21,21 @@ class Pez{
     method image() = "pez-" + color.color() + ".png"
     method nadarActionName() = "Nadar" + self.identity()
 
-    method aparecer(){
-        game.addVisual(self)
+    override method milisegundos() = velocidad
+    override method inmediato() = false
+
+    override method alAgregarAEscena(_escena){
+        super(_escena)
         position = randomizer.randomBorderX()
         direccion = if(position.x() == 0) { derecha } else { izquierda }
-        game.onTick(velocidad, self.nadarActionName(), {self.nadar()})
-        game.schedule(velocidad, { self.nadar() })
+    }
+
+    override method actualizar(){
+        self.nadar()
     }
 
     method colision(personaje){
         personaje.comer(self)
-        self.desaparecer()
     }
 
     method puedeNadar(){
@@ -47,8 +57,43 @@ class Pez{
     }
 
     method desaparecer(){
-        game.removeTickEvent(self.nadarActionName())
-        game.removeVisual(self)
+        escena.quitarEntidad(self)
     }
+}
 
+
+class PezFactory {
+    var property color
+    var property velocidad
+    var property puntaje
+
+    method nuevoPez() = new Pez(color=color, puntaje=puntaje, velocidad=velocidad)
+}
+
+const azulFactory = new PezFactory(velocidad = 350, puntaje = 5, color = azul)
+const rojoFactory = new PezFactory(velocidad = 250, puntaje = 10, color = rojo)
+const verdeFactory = new PezFactory(velocidad = 200, puntaje = 20, color = verde)
+
+class PezVenenoso inherits Pez() {
+       
+    override method colision(personaje) {
+        self.desaparecer()
+        personaje.envenenar()
+    }
+}
+
+class PezCurativo inherits Pez() {
+    
+    override method colision(personaje) {
+        personaje.curar()
+        self.desaparecer()
+    }
+}
+
+object venenosoFactory {
+    method nuevoPez() = new PezVenenoso(puntaje=-10, velocidad=150, color=venenoso)
+}
+
+object curativoFactory {
+    method nuevoPez() = new PezCurativo(puntaje=25, velocidad=250, color=curativo)
 }

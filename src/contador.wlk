@@ -1,9 +1,9 @@
-import pulpo.*
+import entidad.*
 
-
-object contador {
-    var property personaje = pulpo
+class Contador inherits Entidad {
+    
+    const jugador
 
     method position() = game.at(0, game.height() - 1)
-    method text() = "PUNTOS: " + pulpo.puntaje()
+    method text() = "PUNTOS: " + jugador.puntaje()
 }

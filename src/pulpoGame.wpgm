@@ -1,40 +1,17 @@
-import src.randomizer.*
 import wollok.game.*
-import pulpo.*
-import contador.*
-import pez.*
-import tiburon.*
-import posiciones.*
-import red.*
+import estadoDeJuego.*
+import entrada.*
+import pantallainicial.*
 
 program pulpoGame {
-	game.title("Pulpo Game") 	//	Valor por defecto "Wollok Game"
-	game.height(8) 		//	valor por defecto 5
-	game.width(13) 			//	valor por defecto 5
-	game.cellSize(120) 		//	valor por defecto 50
+	game.title("Pulpo Game")
+	game.height(8)
+	game.width(13)
+	game.cellSize(120)
 	game.boardGround("fondo.png")
-    
- 	tiburon.reaparecer()
- 	game.addVisual(pulpo)
- 	game.addVisual(tiburon)
-	game.addVisual(red)
- 
- 	game.onTick(200,"tiburonNadar", { tiburon.nadar()})
-	game.onTick(500,"redCaer", {red.caer(pulpo)})
- 
- 	game.onTick(1000, "AparecerPez", { randomizer.randomPez().aparecer() })
-	game.addVisual(contador)
- 	game.onCollideDo(
- 		pulpo, { e => e.colision(pulpo) }
- 	)
- 
- 	keyboard.w().onPressDo({pulpo.mover(arriba)})
- 	keyboard.a().onPressDo({pulpo.mover(izquierda)})
- 	keyboard.s().onPressDo({pulpo.mover(abajo)})
- 	keyboard.d().onPressDo({pulpo.mover(derecha)})
-	keyboard.c().onPressDo({pulpo.escaparseDeRed()
-	                        red.desaparecer()})
-	keyboard.r().onPressDo({pulpo.reiniciar()})
-    keyboard.p().onPressDo({game.stop()})
+
+
+    pantallaInicial.iniciarJuego()
+
 	game.start()
 }

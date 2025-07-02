@@ -1,16 +1,23 @@
 import posiciones.*
+import entidad.*
 import randomizer.*
 
-object red{
+class Red inherits EntidadConTick {
     var property direccion = abajo
     var property position = game.at(0, 0)
-    var personajeAtrapado = null
+    const property penalizacion = 35
 
-    method image() = "red.png"
+    override method inmediato() = false
+    override method milisegundos() = 500
+    method image() = "red2.png"
+
+    override method alAgregarAEscena(_escena){
+        super(_escena)
+        position = randomizer.randomBorderY()
+    }
 
     method reaparecer(){
         position = randomizer.randomBorderY()
-        personajeAtrapado = null
         direccion = if(position.y() == 0) { arriba } else { abajo }
     }
 
@@ -19,27 +26,25 @@ object red{
         return siguiente < 0 || siguiente >= game.height()
     }
 
-    method caer(personaje){
+    override method actualizar(){
+        self.caer()
+    }
+
+    method caer(){
         if(self.seSaleDelMapa()){
-            self.reaparecer()
+            self.desaparecer()
         }
-        else if (personajeAtrapado == null) {
+        else{
             position = direccion.siguiente(position)
         }
     }
-   
     
     method colision(personaje){
-        personajeAtrapado = personaje
-        personaje.atraparsePorRed()
+        personaje.atraparsePorRed(self)
+        self.desaparecer()
     }
 
     method desaparecer() {
-        game.removeVisual(self)
-        game.schedule(3000, {
-            self.reaparecer()
-            game.addVisual(self)
-        })
+        escena.quitarEntidad(self)
     } 
-
 }
