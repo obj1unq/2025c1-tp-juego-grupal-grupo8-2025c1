@@ -5,12 +5,24 @@ import entrada.*
 import pantallapormuerte.*
 import escena.*
 import estadoDeJuego.*
-object vivo {
-	const tiempoAtrapado = 1200
-	method puedeMoverse() = true
-	method estaVivo() = true
 
-	method atraparse(pulpo){
+class EstadoDePulpo{
+	method puedeMoverse()
+	method estaVivo()
+	method estaEnvenenado()
+
+	method atraparse(pulpo){}
+	method envenenarse(pulpo){}
+	method curarse(pulpo){}
+	method image()
+}
+
+class EstadoVivo inherits EstadoDePulpo {
+	const tiempoAtrapado = 1200
+
+	override method estaVivo() = true
+
+	override method atraparse(pulpo){
 		pulpo.estado(atrapado)
 		game.schedule(tiempoAtrapado, {
 			if(pulpo.estado().estaVivo()){
@@ -20,32 +32,52 @@ object vivo {
 	}
 }
 
-object atrapado {
-	method puedeMoverse() = false
-	method estaVivo() = true
-
-	method atraparse(pulpo){}
+object vivo inherits EstadoVivo {
+	override method estaEnvenenado() = false
+	override method puedeMoverse() = true
+	override method image() = "pulpo2.png"
+	override method envenenarse(pulpo){
+		pulpo.estado(envenenado)
+		game.onTick(1000, pulpo.nombreTickEnvenenado(), {pulpo.perdidaContinua()})
+		pulpo.perdidaContinua()
+	}
+}
+object envenenado inherits EstadoVivo {
+	override method estaEnvenenado() = true
+	override method puedeMoverse() = true
+	override method image() = "pulpoEnvenenado.png"
+	override method curarse(pulpo){
+		pulpo.estado(vivo)
+		game.removeTickEvent(pulpo.nombreTickEnvenenado())
+	}
 }
 
-object muerto {
-	method puedeMoverse() = false
-	method estaVivo() = false
+object atrapado inherits EstadoDePulpo {
+	override method estaEnvenenado() = false
+	override method puedeMoverse() = false
+	override method estaVivo() = true
+	override method image() = "pulpoAtrapado.png"
+}
 
-	method atraparse(pulpo){}
+object muerto inherits EstadoDePulpo {
+	override method estaEnvenenado() = false
+	override method puedeMoverse() = false
+	override method estaVivo() = false
+	override method image() = "pulpoGris.png"
 }
 
 class Pulpo inherits Entidad {
 	var property position = game.center()
 	var property puntaje = 0
 	var property estado = vivo
-	var property estaEnvenenado = false
 	const moverArriba = {self.mover(arriba)}
 	const moverIzquierda = {self.mover(izquierda)}
 	const moverAbajo = {self.mover(abajo)}
 	const moverDerecha = {self.mover(derecha)}
-	
-	var property image = "pulpo2.png"
 
+	method nombreTickEnvenenado() = "envenenado"+self.identity()
+	method image() = estado.image()
+	
 	override method alAgregarAEscena(_escena) {
 		super(_escena)
 		puntaje = 0
@@ -69,6 +101,8 @@ class Pulpo inherits Entidad {
         entrada.quitarPresionarTecla(keyboard.d(), moverDerecha)
     }
 
+	method estaEnvenenado() = estado.estaEnvenenado()
+
 	method mover(direccion) {
 		if (estado.puedeMoverse())
 			position = direccion.siguiente(self.position())
@@ -83,7 +117,6 @@ class Pulpo inherits Entidad {
 
 	method morir(){
 		estado = muerto
-	    image =  "pulpoGris.png"	
 		escenaJuego.detenerSpawns()
 		escenaJuego.finDelJuego(self)
 	}
@@ -94,11 +127,9 @@ class Pulpo inherits Entidad {
     }
 
 	method penalizacionPorRed(red) {
-		if (estado.estaVivo()) 
-        puntaje -= red.penalizacion()
-           if(puntaje < 0) {
-              puntaje = 0
-        }
+		if (estado.estaVivo()){
+        	puntaje = 0.max(puntaje - red.penalizacion())
+		}
 	}
 
 	method digitos() {
@@ -106,26 +137,16 @@ class Pulpo inherits Entidad {
 	}
 
 	method envenenar() {
-        estaEnvenenado = true
-		puntaje -= 10
-		image = "pulpoEnvenenado.png"
-        self.iniciarPerdidaContinua()
+		estado.envenenarse(self)
     }
 
     method curar() {
-        estaEnvenenado = false
-		puntaje += 25
-		image = "pulpo2.png"
+        estado.curarse(self)
     }
 
-	method iniciarPerdidaContinua() {
-        if (estaEnvenenado) {
-            puntaje -= 5
-            game.schedule(1000, { self.iniciarPerdidaContinua() })
-			if(puntaje < 0) {
-              puntaje = 0
+	method perdidaContinua() {
+        if (estado.estaEnvenenado()) {
+            puntaje = 0.max(puntaje - 5)
         }
-        }
-		
     }
 }

@@ -91,9 +91,9 @@ class PezCurativo inherits Pez() {
 }
 
 object venenosoFactory {
-    method nuevoPez() = new PezVenenoso(puntaje=0, velocidad=100, color=venenoso)
+    method nuevoPez() = new PezVenenoso(puntaje=-10, velocidad=150, color=venenoso)
 }
 
 object curativoFactory {
-    method nuevoPez() = new PezCurativo(puntaje=0, velocidad=250, color=curativo)
+    method nuevoPez() = new PezCurativo(puntaje=25, velocidad=250, color=curativo)
 }

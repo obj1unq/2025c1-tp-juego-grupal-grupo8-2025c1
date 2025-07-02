@@ -18,17 +18,24 @@ object randomizer{
     }
 
     method randomPez(personaje) {
-    const peces = [
+    // duplicamos los mismos factories para hacer ciertos tipos de pez mas comunes
+    const factories = [
+        azulFactory,
         azulFactory,
         rojoFactory,
+        rojoFactory,
+        rojoFactory,
         verdeFactory,
-        venenosoFactory
+        verdeFactory
     ]
 
     if (personaje.estaEnvenenado()) {
-        peces.add(curativoFactory)
+        factories.add(curativoFactory)
+    }
+    else{
+        factories.add(venenosoFactory)
     }
 
-    return peces.anyOne().nuevoPez()
+    return factories.anyOne().nuevoPez()
 }
 }
