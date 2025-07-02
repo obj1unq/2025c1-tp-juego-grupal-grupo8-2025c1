@@ -1,6 +1,5 @@
 import pez.*
 
-
 object randomizer{
     method randomBorderX(){
         const x = [0, game.width() - 1].anyOne()
@@ -18,11 +17,25 @@ object randomizer{
         return (0 .. in).anyOne() < chance
     }
 
-    method randomPez(){
-        return [
-            azulFactory,
-            rojoFactory,
-            verdeFactory
-        ].anyOne().nuevoPez()
+    method randomPez(personaje) {
+    // duplicamos los mismos factories para hacer ciertos tipos de pez mas comunes
+    const factories = [
+        azulFactory,
+        azulFactory,
+        rojoFactory,
+        rojoFactory,
+        rojoFactory,
+        verdeFactory,
+        verdeFactory
+    ]
+
+    if (personaje.estaEnvenenado()) {
+        factories.add(curativoFactory)
     }
+    else{
+        factories.add(venenosoFactory)
+    }
+
+    return factories.anyOne().nuevoPez()
+}
 }

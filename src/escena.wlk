@@ -7,6 +7,10 @@ import posiciones.*
 import red.*
 import randomizer.*
 import entrada.*
+import pantallapormuerte.*
+import entidad.*
+import pantallainicial.*
+
 
 
 class Escena {
@@ -43,18 +47,18 @@ class Escena {
     method descargarEscena(){
         entidades.forEach({entidad => self.quitarEntidad(entidad)})
     }
-}
-
+ }
 object escenaJuego inherits Escena {
 
     const accionRecargarEscena = {estadoDeJuego.recargarEscena()}
+    var  jugador = new Pulpo()
 
     override method cargarEscena(){
-        const jugador = new Pulpo()
+        jugador = new Pulpo()
         self.agregarEntidad(jugador)
         self.agregarEntidad(new Contador(jugador = jugador))
     
-        game.onTick(1000, "aparecerPez", { self.agregarEntidad(randomizer.randomPez()) })
+        game.onTick(1000, "aparecerPez", { self.agregarEntidad(randomizer.randomPez(jugador)) })
         game.onTick(2500, "aparecerRed", { self.agregarEntidad(new Red()) })
         game.onTick(3000, "aparecerTiburon", { self.agregarEntidad(new Tiburon()) })
     
@@ -63,9 +67,24 @@ object escenaJuego inherits Escena {
 
     override method descargarEscena(){
         super()
+        self.detenerSpawns()
+        entrada.quitarPresionarTecla(keyboard.r(), accionRecargarEscena)
+    }
+
+    method detenerSpawns() {
         game.removeTickEvent("aparecerRed")
         game.removeTickEvent("aparecerPez")
         game.removeTickEvent("aparecerTiburon")
-        entrada.quitarPresionarTecla(keyboard.r(), accionRecargarEscena)
+    }
+
+    method finDelJuego(_jugador) {
+        const pantallafinal = new PantallaFinal()
+        game.schedule(1000, {self.agregarEntidad(pantallafinal)})   	
+		game.schedule(1025, {
+        const puntajeFinal = new PuntajeFinal()
+        self.agregarEntidad(puntajeFinal)
+        puntajeFinal.mostrar(_jugador)
+        pantallaInicial.volverAlMenuPrincipal(pantallafinal)
+        })
     }
 }

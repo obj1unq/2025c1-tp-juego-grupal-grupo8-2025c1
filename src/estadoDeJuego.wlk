@@ -1,5 +1,4 @@
 import escena.*
-
 object estadoDeJuego {
     var escenaActiva = escenaJuego
 

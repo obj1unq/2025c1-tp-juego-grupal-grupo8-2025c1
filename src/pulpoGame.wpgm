@@ -1,6 +1,7 @@
 import wollok.game.*
 import estadoDeJuego.*
 import entrada.*
+import pantallainicial.*
 
 program pulpoGame {
 	game.title("Pulpo Game")
@@ -9,8 +10,8 @@ program pulpoGame {
 	game.cellSize(120)
 	game.boardGround("fondo.png")
 
-	entrada.inicializar()
-	estadoDeJuego.inicializar()
+
+    pantallaInicial.iniciarJuego()
 
 	game.start()
 }

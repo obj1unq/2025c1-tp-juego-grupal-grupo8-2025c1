@@ -1,4 +1,3 @@
-import wollok.game.*
 object arriba {
     method siguiente(position) {
         return position.up(1)

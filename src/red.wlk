@@ -5,10 +5,11 @@ import randomizer.*
 class Red inherits EntidadConTick {
     var property direccion = abajo
     var property position = game.at(0, 0)
+    const property penalizacion = 35
 
     override method inmediato() = false
     override method milisegundos() = 500
-    method image() = "red.png"
+    method image() = "red2.png"
 
     override method alAgregarAEscena(_escena){
         super(_escena)
@@ -39,7 +40,7 @@ class Red inherits EntidadConTick {
     }
     
     method colision(personaje){
-        personaje.atraparsePorRed()
+        personaje.atraparsePorRed(self)
         self.desaparecer()
     }
 
