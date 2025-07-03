@@ -3,6 +3,7 @@ import posiciones.*
 import randomizer.*
 import pulpo.*
 import entidad.*
+import mapa.*
 
 class Tiburon inherits EntidadConTick{
     var property direccion = derecha
@@ -23,17 +24,13 @@ class Tiburon inherits EntidadConTick{
         self.nadar()
     }
 
-    method seSaleDelMapa(){
-        const siguiente = direccion.siguiente(position).x()
-        return siguiente < 0 || siguiente >= game.width()
-    }
-
     method nadar(){
-        if(self.seSaleDelMapa()){
+        const siguiente = direccion.siguiente(position)
+        if(!mapa.estaAdentro(siguiente)){
             escena.quitarEntidad(self)
         }
         else{
-            position = direccion.siguiente(position)
+            position = siguiente
         }
     }
 

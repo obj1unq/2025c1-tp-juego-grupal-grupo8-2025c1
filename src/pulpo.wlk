@@ -1,4 +1,5 @@
 import wollok.game.*
+import mapa.*
 import posiciones.*
 import entidad.*
 import entrada.*
@@ -103,9 +104,15 @@ class Pulpo inherits Entidad {
 
 	method estaEnvenenado() = estado.estaEnvenenado()
 
+	method estaEnElMapa(direccion) = mapa.estaAdentro(direccion.siguiente(position))
+
+	method puedeMoverse(direccion){
+		return estado.puedeMoverse() && self.estaEnElMapa(direccion)
+	}
+
 	method mover(direccion) {
-		if (estado.puedeMoverse())
-			position = direccion.siguiente(self.position())
+		if (self.puedeMoverse(direccion))
+			position = direccion.siguiente(position)
 	}
 
 	method comer(pez){

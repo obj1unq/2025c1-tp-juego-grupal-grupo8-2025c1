@@ -1,6 +1,7 @@
 import posiciones.*
 import randomizer.*
 import entidad.*
+import mapa.*
 
 class Color {
     const property color
@@ -38,14 +39,7 @@ class Pez inherits EntidadConTick{
         personaje.comer(self)
     }
 
-    method puedeNadar(){
-        return !self.seSaleDelMapa()
-    }
-
-    method seSaleDelMapa(){
-        const siguiente = direccion.siguiente(position).x()
-        return siguiente < 0 || siguiente >= game.width()
-    }
+    method puedeNadar() = mapa.estaAdentro(direccion.siguiente(position))
 
     method nadar(){
         if(!self.puedeNadar()){
