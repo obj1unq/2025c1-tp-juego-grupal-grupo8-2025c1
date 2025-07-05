@@ -12,7 +12,7 @@ class Tiburon inherits EntidadConTick{
 
     override method milisegundos() = 250
 
-    method image() = "shark_sinfondo.png"
+    method image() = "shark.png"
 
     override method alAgregarAEscena(_escena){
         super(_escena)

@@ -23,7 +23,7 @@ class Red inherits EntidadConTick {
 
     method caer(){
         const siguiente = direccion.siguiente(position)
-        if(mapa.estaAdentro(siguiente)){
+        if(!mapa.estaAdentro(siguiente)){
             self.desaparecer()
         }
         else{
