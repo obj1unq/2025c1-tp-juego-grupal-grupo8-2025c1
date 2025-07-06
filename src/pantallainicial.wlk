@@ -12,7 +12,6 @@ object pantallaInicial {
         game.addVisual(self)
         
         keyboard.q().onPressDo({
-            entrada.inicializar() 
             estadoDeJuego.inicializar() 
             game.removeVisual(self)
         })

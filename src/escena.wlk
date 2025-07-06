@@ -15,10 +15,16 @@ import pantallainicial.*
 
 class Escena {
     const property entidades = #{}
+    var activa = false
+
+    method activa() = activa
 
     method validarAgregarEntidad(entidad){
         if(entidades.contains(entidad)){
             self.error("La entidad ya esta en la escena")
+        }
+        if(!activa){
+            self.error("La escena no esta activa")
         }
     }
 
@@ -42,18 +48,22 @@ class Escena {
         entidades.remove(entidad)
     }
 
-    method cargarEscena()
+    method cargarEscena(){
+        activa = true
+    }
 
     method descargarEscena(){
+        activa = false
         entidades.forEach({entidad => self.quitarEntidad(entidad)})
     }
- }
+}
 object escenaJuego inherits Escena {
 
     const accionRecargarEscena = {estadoDeJuego.recargarEscena()}
     var  jugador = new Pulpo()
 
     override method cargarEscena(){
+        super()
         jugador = new Pulpo()
         self.agregarEntidad(jugador)
         self.agregarEntidad(new Contador(jugador = jugador))
