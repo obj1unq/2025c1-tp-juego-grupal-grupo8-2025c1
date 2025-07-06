@@ -7,7 +7,9 @@
 
 ## Capturas
 
-(agregar)
+![image](https://github.com/user-attachments/assets/0a9b8f61-aaf8-40a5-9542-3641a8d87bd1)
+![image](https://github.com/user-attachments/assets/da7e0a30-d54c-470d-a6ea-db79b387be37)
+![image](https://github.com/user-attachments/assets/005e2e48-0c39-4b0d-bc28-04852de7d066)
 
 ## Reglas de Juego / Instrucciones
 
