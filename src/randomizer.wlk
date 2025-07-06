@@ -25,8 +25,8 @@ object randomizer{
         rojoFactory,
         rojoFactory,
         rojoFactory,
-        verdeFactory,
-        verdeFactory
+        amarilloFactory,
+        amarilloFactory
     ]
 
     if (personaje.estaEnvenenado()) {

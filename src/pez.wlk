@@ -8,7 +8,7 @@ class Color {
 }
 object rojo inherits Color(color="rojo") {}
 object azul inherits Color(color="azul") {}
-object verde inherits Color(color="verde") {}
+object amarillo inherits Color(color="amarillo") {}
 object venenoso inherits Color(color="venenoso") {}
 object curativo inherits Color(color="curativo") {}
 
@@ -66,7 +66,7 @@ class PezFactory {
 
 const azulFactory = new PezFactory(velocidad = 350, puntaje = 5, color = azul)
 const rojoFactory = new PezFactory(velocidad = 250, puntaje = 10, color = rojo)
-const verdeFactory = new PezFactory(velocidad = 200, puntaje = 20, color = verde)
+const amarilloFactory = new PezFactory(velocidad = 200, puntaje = 20, color = amarillo)
 
 class PezVenenoso inherits Pez() {
        
