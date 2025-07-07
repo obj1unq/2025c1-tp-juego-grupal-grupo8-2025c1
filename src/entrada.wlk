@@ -26,7 +26,12 @@ object entrada {
             keyboard.d(),
             keyboard.p(),
             keyboard.h(),
-            keyboard.r()
+            keyboard.r(),
+            keyboard.u(),
+            keyboard.j(),
+            keyboard.k(),
+            keyboard.j(),
+            keyboard.z()
         ]
 
         teclas.forEach({tecla => 

@@ -1,15 +1,16 @@
 import posiciones.*
 import randomizer.*
 import entidad.*
+import mapa.*
 
 class Color {
     const property color
 }
-object rojo inherits Color(color="rojo") {}
-object azul inherits Color(color="azul") {}
-object verde inherits Color(color="verde") {}
-object venenoso inherits Color(color="venenoso") {}
-object curativo inherits Color(color="curativo") {}
+object rojo inherits Color(color="rojoo") {}
+object azul inherits Color(color="azull") {}
+object amarillo inherits Color(color="amarillo") {}
+object venenoso inherits Color(color="venenosoo") {}
+object curativo inherits Color(color="curativoo") {}
 
 class Pez inherits EntidadConTick{
     var property direccion = derecha
@@ -38,14 +39,7 @@ class Pez inherits EntidadConTick{
         personaje.comer(self)
     }
 
-    method puedeNadar(){
-        return !self.seSaleDelMapa()
-    }
-
-    method seSaleDelMapa(){
-        const siguiente = direccion.siguiente(position).x()
-        return siguiente < 0 || siguiente >= game.width()
-    }
+    method puedeNadar() = mapa.estaAdentro(direccion.siguiente(position))
 
     method nadar(){
         if(!self.puedeNadar()){
@@ -72,7 +66,7 @@ class PezFactory {
 
 const azulFactory = new PezFactory(velocidad = 350, puntaje = 5, color = azul)
 const rojoFactory = new PezFactory(velocidad = 250, puntaje = 10, color = rojo)
-const verdeFactory = new PezFactory(velocidad = 200, puntaje = 20, color = verde)
+const amarilloFactory = new PezFactory(velocidad = 200, puntaje = 20, color = amarillo)
 
 class PezVenenoso inherits Pez() {
        

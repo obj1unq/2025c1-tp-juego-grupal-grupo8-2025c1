@@ -3,6 +3,8 @@ import posiciones.*
 import randomizer.*
 import pulpo.*
 import entidad.*
+import estadoDeJuego.*
+import mapa.*
 
 class Tiburon inherits EntidadConTick{
     var property direccion = derecha
@@ -11,7 +13,7 @@ class Tiburon inherits EntidadConTick{
 
     override method milisegundos() = 250
 
-    method image() = "shark_sinfondo.png"
+    method image() = "shark.png"
 
     override method alAgregarAEscena(_escena){
         super(_escena)
@@ -23,21 +25,20 @@ class Tiburon inherits EntidadConTick{
         self.nadar()
     }
 
-    method seSaleDelMapa(){
-        const siguiente = direccion.siguiente(position).x()
-        return siguiente < 0 || siguiente >= game.width()
-    }
-
     method nadar(){
-        if(self.seSaleDelMapa()){
+        const siguiente = direccion.siguiente(position)
+        if(!mapa.estaAdentro(siguiente)){
             escena.quitarEntidad(self)
         }
         else{
-            position = direccion.siguiente(position)
+            position = siguiente
         }
     }
 
     method colision(personaje){
-        personaje.morir()
+        if (estadoDeJuego.escenaActualDelJuego(escenaJuegoUnJugador)) 
+        personaje.morir() 
+          else
+        personaje.penalizacionPorTiburon() 
     }
 }

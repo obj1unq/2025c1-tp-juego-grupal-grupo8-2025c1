@@ -25,8 +25,8 @@ object randomizer{
         rojoFactory,
         rojoFactory,
         rojoFactory,
-        verdeFactory,
-        verdeFactory
+        amarilloFactory,
+        amarilloFactory
     ]
 
     if (personaje.estaEnvenenado()) {
@@ -37,5 +37,5 @@ object randomizer{
     }
 
     return factories.anyOne().nuevoPez()
-}
+    }
 }

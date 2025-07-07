@@ -2,6 +2,7 @@ import entidad.*
 import escena.*
 class PantallaFinal inherits Entidad {
     
+     
     method image() = "gameover34.png"  
     method position() = game.at(0, 0)
 }
@@ -29,6 +30,17 @@ class NumeroFinal inherits Entidad {
     method image() = "numero" + valor + ".png"
     method position() = game.at(posX, 3)
 }
+
+object pantallaGanador1 inherits PantallaFinal {
+
+    override method image() = "ganador1.png"
+}
+
+object pantallaGanador2 inherits PantallaFinal {
+
+    override method image() = "ganador2.png"
+}
+
 
 
 

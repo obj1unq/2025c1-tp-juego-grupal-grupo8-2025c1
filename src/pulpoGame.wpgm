@@ -12,6 +12,6 @@ program pulpoGame {
 
 
     pantallaInicial.iniciarJuego()
-
+	
 	game.start()
 }

@@ -10,47 +10,41 @@ object pantallaInicial {
      method iniciarJuego() {
 
         game.addVisual(self)
+        entrada.inicializar() 
         
         keyboard.q().onPressDo({
-            entrada.inicializar() 
-            estadoDeJuego.inicializar() 
-            game.removeVisual(self)
-        })
+            self.jugarJuego(escenaJuegoUnJugador)
+            })
             
         keyboard.i().onPressDo({
-            game.addVisual(imagenInstrucciones)
-            game.removeVisual(self)
-            self.volverAlMenuPrincipal(imagenInstrucciones)
-        })
+                 game.removeVisual(self)
+                 game.addVisual(imagenInstrucciones)
+                 self.volverAlMenuPrincipal()           
+            })
 
         keyboard.e().onPressDo({
-            game.addVisual(enProceso)
-            game.removeVisual(self)
-            self.volverAlMenuPrincipal(enProceso)
-        })
+            self.jugarJuego(escenaJuegoDosJugadores)
+            })
      }     
 
-     method volverAlMenuPrincipal(imagen) {
+     method jugarJuego(escena) {
+        estadoDeJuego.cambiarAEscena(escena)
+        game.removeVisual(self)
+        self.volverAlMenuPrincipal()
+     }
+
+     method volverAlMenuPrincipal() {
             keyboard.z().onPressDo({
-                game.removeVisual(imagen)
+                estadoDeJuego.cambiarAEscena(menuPrincipal)
                 game.addVisual(self)
-                escenaJuego.descargarEscena()
+                game.removeVisual(imagenInstrucciones)
                 })
-            
      }
 }
 
 object imagenInstrucciones {
     var property position = game.at(0, 0)
 
-     method image() ="instruccionesss.png"
+     method image() ="instruccionessFinal.png"
 
-}
-
-object enProceso {
-
-    var property position = game.at(0, 0)
-
-     method image() ="enproceso.png"
-  
 }

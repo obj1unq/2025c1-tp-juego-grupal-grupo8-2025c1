@@ -1,10 +1,12 @@
 import escena.*
+import entrada.*
 object estadoDeJuego {
-    var escenaActiva = escenaJuego
-
+    var escenaActiva = escenaJuegoUnJugador
+    
     method escenaActiva() = escenaActiva
 
     method inicializar(){
+        entrada.inicializar() 
         escenaActiva.cargarEscena()
     }
 
@@ -17,5 +19,9 @@ object estadoDeJuego {
         escenaActiva.descargarEscena()
         escenaActiva = siguienteEscena
         escenaActiva.cargarEscena()
+    }
+
+    method escenaActualDelJuego(_escena) {
+        return escenaActiva ==_escena
     }
 }

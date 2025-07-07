@@ -2,6 +2,8 @@ class Entidad {
     // Valor por defecto en nulo para despues setearlo al agregar a la escena y no agregar complejidad al constructor
     var escena = null
 
+    method escena() = escena // 
+
     method activo() = escena != null
 
     method alAgregarAEscena(_escena) {

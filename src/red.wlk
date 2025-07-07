@@ -1,6 +1,7 @@
 import posiciones.*
 import entidad.*
 import randomizer.*
+import mapa.*
 
 class Red inherits EntidadConTick {
     var property direccion = abajo
@@ -15,27 +16,18 @@ class Red inherits EntidadConTick {
         super(_escena)
         position = randomizer.randomBorderY()
     }
-
-    method reaparecer(){
-        position = randomizer.randomBorderY()
-        direccion = if(position.y() == 0) { arriba } else { abajo }
-    }
-
-    method seSaleDelMapa(){
-        const siguiente = direccion.siguiente(position).y()
-        return siguiente < 0 || siguiente >= game.height()
-    }
-
+    
     override method actualizar(){
         self.caer()
     }
 
     method caer(){
-        if(self.seSaleDelMapa()){
+        const siguiente = direccion.siguiente(position)
+        if(!mapa.estaAdentro(siguiente)){
             self.desaparecer()
         }
         else{
-            position = direccion.siguiente(position)
+            position = siguiente
         }
     }
     
