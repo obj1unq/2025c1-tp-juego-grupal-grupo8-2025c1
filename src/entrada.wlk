@@ -20,6 +20,9 @@ object entrada {
     method inicializar(){
         // Llenamos con las teclas que sean relevantes para el juego
         const teclas = [
+            keyboard.q(),
+            keyboard.e(),
+            keyboard.i(),
             keyboard.w(),
             keyboard.a(),
             keyboard.s(),

@@ -41,3 +41,8 @@ class EntidadConTick inherits Entidad {
         self.quitarEventoTick()
     }
 }
+
+class Imagen inherits Entidad {
+    var property image
+    var property position = game.at(0, 0)
+}

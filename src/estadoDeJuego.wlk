@@ -1,12 +1,15 @@
 import entrada.*
 import escena.*
+import pantallainicial.*
+
 object estadoDeJuego {
-    var escenaActiva = escenaJuegoUnJugador
+    var escenaActiva = pantallaInicial
     
     method escenaActiva() = escenaActiva
 
     method inicializar(){
-        entrada.inicializar() 
+        entrada.inicializar()
+        entrada.alPresionarTecla(keyboard.z(), {self.cambiarAEscena(pantallaInicial)})
         escenaActiva.cargarEscena()
     }
 

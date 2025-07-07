@@ -10,8 +10,7 @@ program pulpoGame {
 	game.cellSize(120)
 	game.boardGround("fondo.png")
 
-
-    pantallaInicial.iniciarJuego()
+	estadoDeJuego.inicializar()
 	
 	game.start()
 }

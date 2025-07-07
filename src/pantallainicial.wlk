@@ -1,50 +1,38 @@
 import src.escena.*
 import entrada.*
+import entidad.*
 import estadoDeJuego.*
 
-object pantallaInicial {
-    var property position = game.at(0, 0)
+object pantallaInicial inherits Escena {
+    const imagen = "pantallainicial22.png"
 
-     method image() = "pantallainicial22.png"
+    const unJugador = {estadoDeJuego.cambiarAEscena(escenaJuegoUnJugador)}
+    const dosJugadores = {estadoDeJuego.cambiarAEscena(escenaJuegoDosJugadores)}
+    const instrucciones = {estadoDeJuego.cambiarAEscena(pantallaInstrucciones)}
 
-     method iniciarJuego() {
+    override method cargarEscena(){
+        super()
+        self.agregarEntidad(new Imagen(image=imagen))
 
-        game.addVisual(self)
-        entrada.inicializar() 
-        
-        keyboard.q().onPressDo({
-            self.jugarJuego(escenaJuegoUnJugador)
-            })
-            
-        keyboard.i().onPressDo({
-                 game.removeVisual(self)
-                 game.addVisual(imagenInstrucciones)
-                 self.volverAlMenuPrincipal()           
-            })
+        entrada.alPresionarTecla(keyboard.q(), unJugador)
+        entrada.alPresionarTecla(keyboard.e(), dosJugadores)
+        entrada.alPresionarTecla(keyboard.i(), instrucciones)
+    }
 
-        keyboard.e().onPressDo({
-            self.jugarJuego(escenaJuegoDosJugadores)
-            })
-     }     
-
-     method jugarJuego(escena) {
-        estadoDeJuego.cambiarAEscena(escena)
-        game.removeVisual(self)
-        self.volverAlMenuPrincipal()
-     }
-
-     method volverAlMenuPrincipal() {
-            keyboard.z().onPressDo({
-                estadoDeJuego.cambiarAEscena(menuPrincipal)
-                game.addVisual(self)
-                game.removeVisual(imagenInstrucciones)
-                })
-     }
+    override method descargarEscena(){
+        super()
+        entrada.quitarPresionarTecla(keyboard.q(), unJugador)
+        entrada.quitarPresionarTecla(keyboard.e(), dosJugadores)
+        entrada.quitarPresionarTecla(keyboard.i(), instrucciones)
+    }
 }
 
-object imagenInstrucciones {
-    var property position = game.at(0, 0)
+object pantallaInstrucciones inherits Escena {
+    const imagenInstrucciones = "instruccionessFinal.png"
 
-     method image() ="instruccionessFinal.png"
+    override method cargarEscena(){
+        super()
+        self.agregarEntidad(new Imagen(image=imagenInstrucciones))
+    }
 
 }
