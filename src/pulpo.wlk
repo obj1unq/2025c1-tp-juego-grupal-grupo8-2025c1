@@ -5,7 +5,6 @@ import entidad.*
 import entrada.*
 import pantallapormuerte.*
 import escena.*
-import mapa.*
 
 class EstadoDePulpo{
 	method puedeMoverse()

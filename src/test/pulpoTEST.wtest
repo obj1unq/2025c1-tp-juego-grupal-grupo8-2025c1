@@ -1,0 +1,211 @@
+import src.pantallapormuerte.*
+import src.estadoDeJuego.*
+import src.escena.*
+import pantallainicial.*
+import pulpoGame.*
+import pulpo.*
+import tiburon.*
+import red.*
+import entrada.*
+import pez.*
+import randomizer.*
+
+describe "PULPO TEST"{ 
+   
+   const tiburon  = new Tiburon()
+   const pulpin   = new Pulpo()
+   const pulpon   = new PulpoDos()
+   const red      = new Red()
+   const azul     = new Pez (puntaje=5)
+   const rojo     = new Pez (puntaje=10)
+   const amarillo = new Pez (puntaje=20)
+   const venenoso = new PezVenenoso()
+   const curativo = new PezCurativo()
+   
+    method initialize(){
+        estadoDeJuego.inicializar()
+    }
+   
+test "1.1 Cambio de escena" {
+     
+    estadoDeJuego.cambiarAEscena(escenaJuegoDosJugadores)
+    assert.equals(escenaJuegoDosJugadores, estadoDeJuego.escenaActiva())
+    estadoDeJuego.cambiarAEscena(escenaJuegoUnJugador)
+    assert.equals(escenaJuegoUnJugador, estadoDeJuego.escenaActiva())
+
+}
+
+test "1.2 colision por tiburon un jugador" {
+
+    pulpin.puntaje(200)
+    assert.equals(escenaJuegoUnJugador, estadoDeJuego.escenaActiva())
+    tiburon.colision(pulpin)
+    assert.equals(200, pulpin.puntaje())
+    assert.notThat(pulpin.estado().estaVivo()) // VERIFICAMOS QUE MUERE
+}
+
+test "1.3 colision por tiburon dos jugadores" {
+
+    pulpin.puntaje(200)
+    pulpon.puntaje(500)
+    estadoDeJuego.cambiarAEscena(escenaJuegoDosJugadores)
+    assert.equals(escenaJuegoDosJugadores, estadoDeJuego.escenaActiva())
+    tiburon.colision(pulpin)
+    assert.equals(50, pulpin.puntaje())
+    tiburon.colision(pulpon)
+    assert.equals(350, pulpon.puntaje())
+}
+
+
+test "1.4 penalizacion por tiburon ambos jugadores" {
+
+    pulpin.iniciarPenalizacion()
+    assert.equals("jugador1choque.png", pulpin.image())
+    pulpin.estado(vivo)
+    assert.equals("jugador1.png", pulpin.image())
+    
+    pulpon.iniciarPenalizacion()
+    assert.equals("jugador2choque.png", pulpon.image())
+    pulpon.estado(vivo)
+    assert.equals("jugador2.png", pulpon.image())
+}
+    
+    test "1.5 colision con pez venenoso, y se cura cuando colisiona al pez curativo" {
+
+    pulpin.envenenar()
+    assert.equals("pulpoEnvenenado.png", pulpin.image())
+    assert.that(pulpin.estado().puedeMoverse())// VERIFICAMOS QUE SE PUEDE MOVER
+    assert.that(pulpin.estado().estaEnvenenado())// VERIFICAMOS QUE ESTA ENVENENADO
+    pulpin.curar()
+    assert.equals("jugador1.png", pulpin.image())    
+    assert.notThat(pulpon.estado().estaEnvenenado())
+
+    pulpon.envenenar()
+    assert.equals("pulpoEnvenenadodoss.png", pulpon.image())
+    assert.that(pulpon.estado().puedeMoverse())           // VERIFICAMOS QUE SE PUEDE MOVER
+    assert.that(pulpon.estado().estaEnvenenado())        // VERIFICAMOS QUE ESTA ENVENENADO
+    pulpon.curar()
+    assert.equals("jugador2.png", pulpon.image())    
+    assert.notThat(pulpon.estado().estaEnvenenado())
+    }
+
+
+    test "1.6 colision con red ambos jugadores" {
+    pulpin.atraparsePorRed(red)
+    assert.equals("pulpoAtrapado.png", pulpin.image())
+    assert.equals(atrapado,pulpin.estado())
+    assert.notThat(pulpin.estado().puedeMoverse())
+
+    pulpon.atraparsePorRed(red)
+    assert.equals("pulpoDosAtrapado.png", pulpon.image())
+    assert.equals(atrapado,pulpon.estado())
+    assert.notThat(pulpin.estado().puedeMoverse())
+    }
+
+    test "1.7 penalizacion por red ambos jugadores" {
+        
+        pulpin.puntaje(200)
+        pulpin.penalizacionPorRed(red)
+        assert.equals("jugador1.png", pulpin.image())
+        assert.equals(165, pulpin.puntaje())
+        assert.throwsException({ pulpin.comer()}) // no puede comer porque no se puede mover
+
+        pulpin.puntaje(25)      
+        pulpin.penalizacionPorRed(red)
+        assert.equals("jugador1.png", pulpin.image())
+        assert.equals(0, pulpin.puntaje())          // verificamos que el puntaje no sea negativo
+    
+        pulpon.puntaje(200)
+        pulpon.penalizacionPorRed(red)
+        assert.equals("jugador2.png", pulpon.image())
+        assert.equals(165, pulpon.puntaje())
+        assert.throwsException({ pulpin.comer()}) // no puede comer porque no se puede mover
+
+        pulpon.puntaje(25)      
+        pulpon.penalizacionPorRed(red)
+        assert.equals("jugador2.png", pulpon.image())
+        assert.equals(0, pulpon.puntaje())
+    }
+
+    test "1.8 colision con peces ambos jugadores" {
+        
+        estadoDeJuego.escenaActiva().agregarEntidad(rojo)
+        estadoDeJuego.escenaActiva().agregarEntidad(azul)
+        estadoDeJuego.escenaActiva().agregarEntidad(amarillo)
+
+        pulpin.comer(azul)
+        assert.equals(5, pulpin.puntaje())
+        // tiene 5 puntos en este momento
+        pulpin.comer(rojo)   
+        assert.equals(15, pulpin.puntaje())
+        // tiene 15 puntos en este momento
+        pulpin.comer(amarillo)
+        assert.equals(35, pulpin.puntaje())
+
+        estadoDeJuego.escenaActiva().agregarEntidad(rojo)     // AGREGAMOS NUEVAMENTE LAS ENTIDADES YA QUE COMER LAS ELIMINA
+        estadoDeJuego.escenaActiva().agregarEntidad(azul)
+        estadoDeJuego.escenaActiva().agregarEntidad(amarillo)
+
+        pulpon.comer(azul)
+        assert.equals(5, pulpon.puntaje())
+        // tiene 5 puntos en este momento
+        pulpon.comer(rojo)   
+        assert.equals(15, pulpon.puntaje())
+        // tiene 15 puntos en este momento
+        pulpon.comer(amarillo)
+        assert.equals(35, pulpon.puntaje())
+    }
+
+
+    test "1.9 cargamos la escena y la eliminamos" {
+
+        const escenaUno = new Escena()
+
+        escenaUno.cargarEscena()
+
+        escenaUno.agregarEntidad(red)
+        escenaUno.agregarEntidad(amarillo)
+        escenaUno.agregarEntidad(azul)
+        escenaUno.agregarEntidad(rojo)
+        escenaUno.agregarEntidad(tiburon)
+        escenaUno.agregarEntidad(pulpin)
+        escenaUno.agregarEntidad(pulpon)
+
+        assert.equals(#{pulpin,pulpon,tiburon,red,rojo,amarillo,azul}, escenaUno.entidades())
+        escenaUno.descargarEscena()
+        assert.equals(#{}, escenaUno.entidades())
+    }
+
+    test "2.0 ganador jugador uno" {
+
+        estadoDeJuego.cambiarAEscena(escenaJuegoDosJugadores)
+        pulpin.puntaje(350)
+        assert.that(escenaJuegoDosJugadores.jugadorGanador(pulpin))
+        tiburon.colision(pulpin) // para restar puntos
+        assert.notThat(escenaJuegoDosJugadores.jugadorGanador(pulpin))
+        escenaJuegoDosJugadores.agregarEntidad(pantallaGanador1)       // SE AGREGA PANTALLA
+        assert.that(escenaJuegoDosJugadores.entidades().contains(pantallaGanador1))  // SE VERIFICA QUE SE AGREGO PANTALLA GANADOR 1
+    }
+
+    test "2.1 ganador jugador dos" {
+
+        estadoDeJuego.cambiarAEscena(escenaJuegoDosJugadores)
+        pulpon.puntaje(350)
+        assert.that(escenaJuegoDosJugadores.jugadorGanador(pulpon))
+        tiburon.colision(pulpon) // para restar puntos
+        assert.notThat(escenaJuegoDosJugadores.jugadorGanador(pulpon))
+        escenaJuegoDosJugadores.agregarEntidad(pantallaGanador2)       // SE AGREGA PANTALLA
+        assert.that(escenaJuegoDosJugadores.entidades().contains(pantallaGanador2))  // SE VERIFICA QUE SE AGREGO PANTALLA GANADOR 2 
+    }
+
+    test "2.2 morir modo un jugador " {
+
+        estadoDeJuego.cambiarAEscena(escenaJuegoUnJugador)
+        const pantallafinal = new PantallaFinal()
+        const puntajeFinal = new PuntajeFinal()
+        escenaJuegoUnJugador.agregarEntidad(puntajeFinal)    // SE AGREGA PUNTAJE 
+        escenaJuegoUnJugador.agregarEntidad(pantallafinal)   // SE AGREGA PANTALLA FINAL
+        assert.that(escenaJuegoUnJugador.entidades().contains(puntajeFinal)) // SE VERIFICA QUE SE AGREGO PUNTAJE 
+        assert.that(escenaJuegoUnJugador.entidades().contains(pantallafinal)) // SE VERIFICA QUE SE AGREGO PANTALLA FINAL
+    }
+}
