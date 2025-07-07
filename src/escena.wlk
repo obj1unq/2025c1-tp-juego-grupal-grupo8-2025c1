@@ -17,7 +17,10 @@ class Escena {
     const property entidades = #{}
     var activa = false
 
-    method activa() = activa 
+    // method activa() = activa 
+    // var activa = false
+
+    method activa() = activa
 
     method validarAgregarEntidad(entidad){
         if(entidades.contains(entidad)){

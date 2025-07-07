@@ -1,4 +1,5 @@
 import wollok.game.*
+import mapa.*
 import posiciones.*
 import entidad.*
 import entrada.*

@@ -1,5 +1,5 @@
-import escena.*
 import entrada.*
+import escena.*
 object estadoDeJuego {
     var escenaActiva = escenaJuegoUnJugador
     
